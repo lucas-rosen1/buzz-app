@@ -7,6 +7,7 @@ import { NavigationItem } from "../../shared/design-system/ui/NavigationItem";
 import { SendIcon } from "../../shared/design-system/icons";
 import styles from "./DraftsSent.module.css";
 import { useDrafts } from "./drafts";
+import { useDraftsSentPreference } from "./preference";
 import { listed, scopeOf } from "./scope";
 
 /** The host's Drafts & sent destination, shared by sidebar and global search. */
@@ -23,7 +24,7 @@ export function draftsSentTarget(
   };
 }
 
-/** A Messages destination, independent of the optional plugin inventory. */
+/** A Messages destination, shown once its device preference is on. */
 export function DraftsSentNavigation({
   relay,
   navigator,
@@ -35,6 +36,7 @@ export function DraftsSentNavigation({
 }) {
   const connection = useRelayConnection(relay);
   const scope = scopeOf(connection);
+  if (!useDraftsSentPreference().enabled) return null;
   return (
     <NavigationItem
       label="Drafts & sent"

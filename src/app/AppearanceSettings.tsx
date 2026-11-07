@@ -37,6 +37,10 @@ import {
   setUnreadFirstPreference,
   useUnreadFirstPreference,
 } from "../features/search/unread-first-preference";
+import {
+  setDraftsSentPreference,
+  useDraftsSentPreference,
+} from "../features/drafts-sent/preference";
 import { macWebKit } from "../features/messages/mac-webkit";
 import { SwitchPreferenceRow } from "../shared/design-system/ui/SwitchPreferenceRow";
 import {
@@ -79,6 +83,7 @@ export function AppearanceSettings({
   const followUp = useFollowUpBehaviorPreference();
   const autocorrect = useMessageAutocorrectPreference();
   const unreadFirst = useUnreadFirstPreference();
+  const draftsSent = useDraftsSentPreference();
   const clock = useClockPreference();
   const names = useNamePreference();
   const verifiedCommunity = useVerifiedCommunity(communities?.relay);
@@ -480,6 +485,12 @@ export function AppearanceSettings({
               checked={unreadFirst.enabled}
               onCheckedChange={setUnreadFirstPreference}
             />
+            <SwitchPreferenceRow
+              label="Show Drafts & sent"
+              description="Adds Drafts & sent to the Messages sidebar and search, listing your unsent drafts and recent sent messages."
+              checked={draftsSent.enabled}
+              onCheckedChange={setDraftsSentPreference}
+            />
           </SettingsGroup>
         </div>
         {active && messageWidthError && (
@@ -549,6 +560,20 @@ export function AppearanceSettings({
               onClick={() => setUnreadFirstPreference(unreadFirst.enabled)}
             >
               Retry saving search preference
+            </Button>
+          </ToastNotice>
+        )}
+        {active && draftsSent.unsaved && (
+          <ToastNotice
+            title="Drafts & sent preference wasn’t saved"
+            description="This choice is active, but could not be saved on this device. Try again."
+          >
+            <Button
+              type="button"
+              size="sm"
+              onClick={() => setDraftsSentPreference(draftsSent.enabled)}
+            >
+              Retry saving Drafts & sent preference
             </Button>
           </ToastNotice>
         )}

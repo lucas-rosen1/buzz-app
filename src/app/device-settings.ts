@@ -3,6 +3,7 @@ import { followUpBehaviorSetting } from "../features/messages/follow-up-preferen
 import { rememberAgentsSetting } from "../features/messages/mention-preferences";
 import { threadPlacementSetting } from "../features/messages/thread-preferences";
 import { unreadFirstSetting } from "../features/search/unread-first-preference";
+import { draftsSentSetting } from "../features/drafts-sent/preference";
 import { createDeviceSettings } from "../shared/device-settings";
 import type { Appearance } from "../shared/theme/service";
 import { appearanceSettings } from "../shared/theme/settings";
@@ -18,6 +19,7 @@ export const deviceSettings = (appearance: Appearance) =>
     threadPlacementSetting,
     followUpBehaviorSetting,
     autocorrectSetting,
+    draftsSentSetting,
     rememberAgentsSetting,
     unreadFirstSetting,
   ]);

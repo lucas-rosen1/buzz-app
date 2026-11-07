@@ -6,6 +6,7 @@ import { openChannelDetails } from "./channel-details.mjs";
 const solo = "33333333-3333-4333-8333-333333333333";
 test.use({
   productionBroker: true,
+  draftsSent: true,
   channelIds: [solo, "beta"],
   channelNames: { [solo]: "Alpha", beta: "Beta" },
   soloChannels: [solo],

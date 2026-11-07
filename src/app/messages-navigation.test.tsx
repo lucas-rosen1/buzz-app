@@ -12,6 +12,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { App } from "./App";
 import { createServices, type AppServices } from "./services";
+import { setDraftsSentPreference } from "../features/drafts-sent/preference";
 
 vi.mock("../bundled", async () => ({
   bundledPlugins: [
@@ -34,6 +35,7 @@ const scrollIntoViewDescriptor = Object.getOwnPropertyDescriptor(
   "scrollIntoView",
 );
 beforeEach(() => {
+  setDraftsSentPreference(true);
   // jsdom has no layout scrolling; search reveals its selected result.
   Object.defineProperty(HTMLElement.prototype, "scrollIntoView", {
     configurable: true,
@@ -53,6 +55,27 @@ beforeEach(() => {
     addEventListener() {},
     removeEventListener() {},
   }));
+});
+
+it("offers Drafts & sent in neither search nor the sidebar until it is turned on", async () => {
+  setDraftsSentPreference(false);
+  services = createServices();
+  render(<App services={services} />);
+  const user = userEvent.setup();
+  await user.click(await screen.findByRole("button", { name: "Search Buzz" }));
+  const search = await screen.findByRole("combobox", { name: "Search Buzz" });
+  await user.type(search, "drafts");
+  expect(
+    screen.queryByRole("option", { name: "Drafts & sent" }),
+  ).not.toBeInTheDocument();
+  await user.keyboard("{Escape}");
+  expect(
+    screen.queryByRole("button", { name: "Drafts & sent" }),
+  ).not.toBeInTheDocument();
+  act(() => setDraftsSentPreference(true));
+  expect(
+    await screen.findByRole("button", { name: "Drafts & sent" }),
+  ).toBeVisible();
 });
 
 it("opens the host Drafts & sent destination from global search", async () => {

@@ -13,6 +13,7 @@ import {
   SendIcon,
 } from "../../shared/design-system/icons/index";
 import { draftsSentTarget } from "../../features/drafts-sent/DraftsSentNavigation";
+import { useDraftsSentPreference } from "../../features/drafts-sent/preference";
 import { scopeOf } from "../../features/drafts-sent/scope";
 import { Dialog } from "../../shared/design-system/ui/Dialog";
 import { Button } from "../../shared/design-system/ui/Button";
@@ -211,6 +212,7 @@ export function PageSearch({
     services?.shortcutBindings.snapshot ?? noOverrides,
   );
   const binding = overrides[SEARCH_ID] ?? SEARCH_BINDING;
+  const draftsSent = useDraftsSentPreference().enabled;
   const apple = isApplePlatform(navigator.platform);
   // Every search surface reads pages from here, so rank and underline them
   // here too: the disconnected and personal-space views show this list as is.
@@ -223,6 +225,7 @@ export function PageSearch({
         open: () => onSelect(page.key),
       })),
       ...(services &&
+      draftsSent &&
       pages.some((page) => page.key === "buzz.channels/channels")
         ? [
             {

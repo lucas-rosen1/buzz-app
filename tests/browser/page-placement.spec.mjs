@@ -9,7 +9,7 @@ import {
 
 // Browser-only boundaries: painted focus, native insets, resize geometry, and
 // real App wiring between Messages and Solo chats. Contract matrices stay in RTL.
-test.use({ pluginFixtures: true });
+test.use({ pluginFixtures: true, draftsSent: true });
 
 test("shared navigation preserves drafts and history across Solo and header pages", async ({
   page,

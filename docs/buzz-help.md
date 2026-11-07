@@ -523,7 +523,10 @@ revokes all of them, and a pairing unused for 30 days expires.
   approval, Buzz opens the approval page in your default browser, where you
   are signed in to Builderlab. Approve it there, return to Buzz and click
   **Reload** to open the app.
-- **Drafts & sent** is part of Messages. Opening it keeps the conversation
+- **Drafts & sent** is part of Messages and is off by default; turn on
+  **Show Drafts & sent** in Settings → Appearance → Conversations to add it
+  to the sidebar and search.
+  Opening it keeps the conversation
   sidebar available, so you can switch straight back to a chat. Use the **Drafts**
   and **Sent** tabs to switch lists; Buzz remembers your choice for this community.
   Rows lead with the destination and message text. It lists

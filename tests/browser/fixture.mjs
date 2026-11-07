@@ -76,6 +76,8 @@ export const test = base.extend({
   expectedSidebarIconFailure: [false, { option: true }],
   largeSidebar: [false, { option: true }],
   iconCongestion: [false, { option: true }],
+  // Drafts & sent is off until a person turns it on in Settings.
+  draftsSent: [false, { option: true }],
   dmLabels: [false, { option: true }],
   dmMembers: [{}, { option: true }],
   agentPeers: [false, { option: true }],
@@ -155,6 +157,7 @@ export const test = base.extend({
       expectedSidebarIconFailure,
       largeSidebar,
       iconCongestion,
+      draftsSent,
       dmLabels,
       dmMembers,
       agentPeers,
@@ -2541,7 +2544,15 @@ export const test = base.extend({
           observer.observe(document, { childList: true, subtree: true });
         });
       await page.addInitScript(
-        ({ viewer, profilePicture, iconCongestion, enabledPlugins }) => {
+        ({
+          viewer,
+          profilePicture,
+          iconCongestion,
+          enabledPlugins,
+          draftsSent,
+        }) => {
+          if (draftsSent && !localStorage.getItem("buzz-drafts-sent.v1"))
+            localStorage.setItem("buzz-drafts-sent.v1", "on");
           // Model fresh plugin choices before seeding an existing community.
           // Feature journeys opt in once; reloads retain later user choices.
           if (!localStorage.getItem("buzzodz.plugins.v1"))
@@ -2579,7 +2590,7 @@ export const test = base.extend({
               }),
             );
         },
-        { viewer, profilePicture, iconCongestion, enabledPlugins },
+        { viewer, profilePicture, iconCongestion, enabledPlugins, draftsSent },
       );
       await use({
         sign: (template) => finalizeEvent(template, userKey),

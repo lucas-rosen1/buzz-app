@@ -22,6 +22,7 @@ import { fixture, owners, id, viewer, scope } from "./sidebar-testing";
 import type { ChannelDetails } from "../../features/relay/channel-details-protocol";
 import { createSoloRegionFixture } from "../../features/channel-navigation/solo-navigation-testing";
 import { PrimarySidebar } from "./PrimarySidebar";
+import { setDraftsSentPreference } from "../../features/drafts-sent/preference";
 import type {
   RegisteredSidebarRestriction,
   SidebarScope,
@@ -38,6 +39,7 @@ afterEach(() => {
 });
 
 it("opens Drafts & sent in Messages without changing the sidebar's Solo filter", async () => {
+  setDraftsSentPreference(true);
   const f = fixture(true);
   await userEvent.click(screen.getByRole("tab", { name: "Solo" }));
   await userEvent.click(screen.getByRole("button", { name: "Drafts & sent" }));
